@@ -27,21 +27,28 @@ def _get_jwks() -> dict:
     return response.json()
 
 
+EXPECTED_ISSUER = f"{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}"
+
+
 def _decode_token(token: str) -> dict:
     try:
-        jwks = _get_jwks()
-        return jwt.decode(
+        claims = jwt.decode(
             token,
-            jwks,
+            _get_jwks(),
             algorithms=["RS256"],
-            audience=KEYCLOAK_CLIENT_ID,
-            options={"verify_aud": False},  # Keycloak public clients have no audience claim
+            issuer=EXPECTED_ISSUER,
+            options={"verify_aud": False},  # aud="account" for public clients; we check azp below
         )
     except JWTError as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid token: {e}")
+
+    if claims.get("azp") != KEYCLOAK_CLIENT_ID:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Invalid token: {e}",
+            detail=f"Token not issued for this client (azp={claims.get('azp')!r})",
         )
+
+    return claims
 
 
 def get_current_role(
