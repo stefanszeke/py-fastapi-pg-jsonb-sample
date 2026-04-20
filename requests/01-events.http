@@ -1,0 +1,91 @@
+# ── Events API ────────────────────────────────────────────────────────────────
+# Paste your token below, or use: {{loginAlice.response.body.access_token}}
+# after running a login request in 00-auth.http (same VS Code session).
+
+@api = http://localhost:8000
+
+# Replace with your actual token, or reference a named login request:
+@tokenAlice      = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNd1c0U2pGSzNpOFRKWmdmeDRhaXBvRnZ4eTVoTjJRdEtCWXV6MFRISGFzIn0.eyJleHAiOjE3NzY2NzU5OTEsImlhdCI6MTc3NjY3NTY5MSwianRpIjoib25ydHJvOjQ1OTBkOWY0LWM4NjAtZjIwNy05NDkxLWVkNjI5NjlhYzBmZiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MS9yZWFsbXMvY2F2ZXMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNGI5MTdlOGItZDJhNy00NzY3LWEzMDctZmI2YjJmMjZlOTU3IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiY2F2ZXMtYXBpIiwic2lkIjoiSzQxSnhJRWs4MXRjeUFjdzZyY1VoeWRIIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtY2F2ZXMiLCJjYXZlciIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IkFsaWNlIERvZSIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsaWNlIiwiZ2l2ZW5fbmFtZSI6IkFsaWNlIiwiZmFtaWx5X25hbWUiOiJEb2UiLCJlbWFpbCI6ImFsaWNlQG1haWwuY29tIn0.XeZWMWISCuTFXFBfl98u4XYdUOWkv1rTLbbg-OL_A-31CEaixkbOhrGXHQF52c6014THcsLZF1105GR0EiJUm1Zw-mr3V8ZbDZjxqiiYOyhotkKrTw6b6DzOxdebXCWlYj_J29GBgsJJAl7s4O0B5M3GhOGB5-RD1ujMHbofpPZt9DJoQCl1cwr6klDSl4JVOc__wa3rz9M5DngGTy88Oj3DG9E0gnPlf_7_njSwEH7o5kWku3sYZAQPKNoZa0J5BPxqjnNdvIRAavqbtIcRD5B2bzHj0f0QpnjWY1u9rVBoeyPxACp4-PrmqKreynTAayhOCuvdIogdtbDxGZVOBg
+@tokenBob        = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNd1c0U2pGSzNpOFRKWmdmeDRhaXBvRnZ4eTVoTjJRdEtCWXV6MFRISGFzIn0.eyJleHAiOjE3NzY2NzYwODUsImlhdCI6MTc3NjY3NTc4NSwianRpIjoib25ydHJvOjE1ODc3Yjg1LTVmMmQtZjI4OC1hZDI4LWQxZmEyMDg0ZGYxMCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MS9yZWFsbXMvY2F2ZXMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNWEzNTgxODEtZWI0MC00NzZkLThhYmMtNjczMWYyZjA5YzRiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiY2F2ZXMtYXBpIiwic2lkIjoiT0RDRURQZWp0QjUycVNZM2RtOUl3TFZWIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInJlc2VhcmNoZXIiLCJkZWZhdWx0LXJvbGVzLWNhdmVzIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiQm9iIEJ1cmdlciIsInByZWZlcnJlZF91c2VybmFtZSI6ImJvYiIsImdpdmVuX25hbWUiOiJCb2IiLCJmYW1pbHlfbmFtZSI6IkJ1cmdlciIsImVtYWlsIjoiYm9iQG1haWwuY29tIn0.bzSG8nCbtvvhKQLx20IhRPV0xpcbhEe7Ce-3l-CkFoaPnlhtu5CeT9l0vtNofCJhiM1uHuaZ8TMQAhQyEb-RFfmmLd7zUGGefsh5oHmvpkRXzcd1KRNtAAixbSxyYYnkmZKW1E1jr2zcONz7fF8uNjQ4bo8otAeRn5qfOljENyayJnSlwk7ggb42bYcLj_Y1JsyHuX8SeH_B0fHBrRbaUZB9jKCswujEP6EZl95RNddc9HZHXk02ne3Tp9YFtHSynWq9Zw3PlF6EHuHSCHqthT23hQqDZQUxPsj7CkHoCb1YdFADhPEGdJvijla2seH6H75NE59Toh-TbRceFVoKPw
+@tokenCharlie    = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNd1c0U2pGSzNpOFRKWmdmeDRhaXBvRnZ4eTVoTjJRdEtCWXV6MFRISGFzIn0.eyJleHAiOjE3NzY2NzYwNTgsImlhdCI6MTc3NjY3NTc1OCwianRpIjoib25ydHJvOmE4YjE4NWRhLWQ1NTMtNjE4Ni04NDdmLTFjNDc1MTA5MWU3ZiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MS9yZWFsbXMvY2F2ZXMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNGRhMjgxNGItNDgxNC00ZjFmLTlmYjYtN2I3ZWFmNjc4YzEzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiY2F2ZXMtYXBpIiwic2lkIjoiLTg1UmNSLWE5UkRBa2hCd3FKbFNrNENUIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtY2F2ZXMiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwidXNlciJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiQ2hhcmxpZSBDaGFybGllIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiY2hhcmxpZSIsImdpdmVuX25hbWUiOiJDaGFybGllIiwiZmFtaWx5X25hbWUiOiJDaGFybGllIiwiZW1haWwiOiJjaGFybGllQG1haWwuY29tIn0.jN12_DZk-Fuwyoj2nsagO63r-Q5WGkxQWtqaCaPigiHEnvS-J6rD4so6xFyI9joByaG1ddDkDbXVneCVfbiTs93vMWCXp5UIk3MkE3Y7OxY4V4tQ8VUK86RZAJD93R2Gr8NftCdy8iYMLnU27ji6FNcwxs-TWJYtY5ITPAGWuA8IKfMublS_2XbcD7ckaUwEr8rlAZ9Vr5nnZ-Ix71mbimhz_kUp4hkEoQDwu1UBSgH9CAN7hqIlGtmHFyLJhi8AgA15r4bJsLzjcwQUb1O7NGeUbE_eAlFZlp6VhdyTDXAFIk9NXQZkFmlsTOswHBmRmE-UJXgcqZjyj06U5sIdFg
+@tokenAdmin      = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNd1c0U2pGSzNpOFRKWmdmeDRhaXBvRnZ4eTVoTjJRdEtCWXV6MFRISGFzIn0.eyJleHAiOjE3NzY2NzYxMDEsImlhdCI6MTc3NjY3NTgwMSwianRpIjoib25ydHJvOjUxOGE5MWU4LWU1MDYtM2ExNi1jZWFlLTBlZThjYmI1OWU4MSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MS9yZWFsbXMvY2F2ZXMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMDFlNjUxOTEtMGFmMS00OGY2LTg1M2QtMTRlMDI0NGFmMzk1IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiY2F2ZXMtYXBpIiwic2lkIjoiN1gzMHpNOUFUTThiN0pBbnpCN2Z1bDEyIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtY2F2ZXMiLCJvZmZsaW5lX2FjY2VzcyIsImFkbWluIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6ImFkbWluIGFkbWluIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRtaW4iLCJnaXZlbl9uYW1lIjoiYWRtaW4iLCJmYW1pbHlfbmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSJ9.pUzij2LlILf52nNu_Knx81cNttjEO-TIY8F6Ru2jR4r5jAuqXtp-7cFTvYGEfT7FTaOd7Y23tOySERSmnzvAb0w1cc_bAYZUgdGVx8HGmdyYDsHzWlDPAVLtTkMMgXBIjNCiMoXejptvu2BPuabMhuupLLbUh5NoY_OwoWXR9zGwa6ZPeeBIL0ULde7DleWB5-pzuEng23_IsEnPCWYlwCPM__1ZntfhaHRttINktM-9TuYMptUFBwBan_hDeLPpl22mNCIU6fpOlSkcuiiHUbEp7Xu_WjzSJCDH9xUIAalByZxN_UGyfqO21KWgtksczt91i1zlVE7Cu_9xHlsZSg
+
+
+# ── Create ────────────────────────────────────────────────────────────────────
+
+### Create a cave (no auth required for POST — or protect it as needed)
+POST {{api}}/events
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{
+  "name": "Bystrianska Cave",
+  "public_payload": {
+    "kind": "cave",
+    "region": "Slovakia",
+    "tags": ["karst", "tourism"],
+    "protected": true
+  },
+  "caver_payload": {
+    "length_m": 2900,
+    "difficulty": "medium",
+    "entrance_gps": [48.847, 19.064],
+    "equipment_required": ["helmet", "lamp"]
+  },
+  "scientific_payload": {
+    "geology": "mesozoic limestone",
+    "discovered": 1968,
+    "species_count": 14,
+    "secret": "bystrianska-classified"
+  }
+}
+
+
+# ── List all events (role determines visible fields) ──────────────────────────
+
+### List as basic user  →  public_payload only
+GET {{api}}/events
+Authorization: Bearer {{tokenCharlie}}
+
+### List as caver  →  public_payload + caver_payload
+GET {{api}}/events
+Authorization: Bearer {{tokenAlice}}
+
+### List as researcher  →  all three payloads
+GET {{api}}/events
+Authorization: Bearer {{tokenBob}}
+
+### List as admin  →  all three payloads
+GET {{api}}/events
+Authorization: Bearer {{tokenAdmin}}
+
+
+# ── Filter by kind ────────────────────────────────────────────────────────────
+
+### Filter by kind=cave (as caver)
+GET {{api}}/events/by-kind/cave
+Authorization: Bearer {{tokenAlice}}
+
+
+# ── Filter by length ──────────────────────────────────────────────────────────
+
+### Caves longer than 1000 m (as researcher)
+GET {{api}}/events/longer-than/1000
+Authorization: Bearer {{tokenBob}}
+
+
+# ── Advanced filter ───────────────────────────────────────────────────────────
+
+### Filter: cave + Slovakia + protected (as caver)
+GET {{api}}/events/filter?kind=cave&region=Slovakia&protected=true
+Authorization: Bearer {{tokenAlice}}
+
+### Filter: min_length=800 + max_length=3000 (as researcher)
+GET {{api}}/events/filter?min_length=800&max_length=3000
+Authorization: Bearer {{tokenBob}}
+
+
+# ── Health ────────────────────────────────────────────────────────────────────
+
+### Health check
+GET {{api}}/health

@@ -1,0 +1,35 @@
+# ── Get tokens from Keycloak ──────────────────────────────────────────────────
+# Run each login request, then copy the access_token into requests/01-events.http
+# or use the named-request variable syntax shown below.
+
+@keycloak = http://localhost:8081
+@realm    = caves
+@client   = caves-api
+
+### Login as alice (caver)
+# @name loginAlice
+POST {{keycloak}}/realms/{{realm}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id={{client}}&username=alice&password=secret
+
+### Login as bob (researcher)
+# @name loginBob
+POST {{keycloak}}/realms/{{realm}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id={{client}}&username=bob&password=secret
+
+### Login as charlie (user)
+# @name loginCharlie
+POST {{keycloak}}/realms/{{realm}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id={{client}}&username=charlie&password=secret
+
+### Login as admin
+# @name loginAdmin
+POST {{keycloak}}/realms/{{realm}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id={{client}}&username=admin&password=admin

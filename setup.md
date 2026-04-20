@@ -1,11 +1,12 @@
-# FastAPI + PostgreSQL + JSONB Local Demo
+# FastAPI + PostgreSQL + JSONB + Keycloak Local Demo
 
-A minimal local setup for testing **FastAPI** with **PostgreSQL** and a **JSONB** column, using **Docker/Rancher Desktop** for the database and **Adminer** for database inspection.
+A minimal local setup for testing **FastAPI** with **PostgreSQL** and a **JSONB** column, using **Docker/Rancher Desktop** for services and **Adminer** for database inspection.
 
 ## What this project does
 
 - Runs PostgreSQL locally in Docker
 - Runs Adminer locally in Docker
+- Runs Keycloak (identity & access management) locally in Docker
 - Runs a FastAPI application locally on your machine
 - Stores flexible JSON data in a PostgreSQL `JSONB` column
 - Lets you test API endpoints from Swagger UI
@@ -26,24 +27,36 @@ Typical files in the project:
 
 ```text
 fastapi-pg-jsonb-demo/
+├─ app/
+│  ├─ routers/
+│  │  └─ events.py       ← all /events endpoints
+│  ├─ main.py            ← app creation + router registration
+│  ├─ database.py        ← SQLAlchemy engine + session
+│  ├─ models.py          ← ORM models
+│  ├─ schemas.py         ← Pydantic schemas
+│  └─ auth.py            ← role extraction + serialization
+├─ postgres-init/
+│  └─ 01-keycloak.sql
+├─ k8s/
+│  └─ app.yaml
 ├─ .venv/
 ├─ docker-compose.yml
-├─ main.py
-├─ database.py
-├─ models.py
-├─ schemas.py
 └─ requirements.txt
 ```
 
 ---
 
-## 1. Start PostgreSQL and Adminer
+## 1. Start PostgreSQL, Adminer, and Keycloak
 
 From the project folder:
 
 ```powershell
 docker compose up -d
 ```
+
+This starts three containers: `local-postgres`, `local-adminer`, and `local-keycloak`.
+
+The `postgres-init/01-keycloak.sql` script runs automatically on first start and creates the `keycloak` database and user that Keycloak needs.
 
 If you ever need to stop them:
 
@@ -95,7 +108,7 @@ pip freeze > requirements.txt
 ## 4. Run the FastAPI application
 
 ```powershell
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 
 Expected local address:
@@ -199,7 +212,30 @@ After login:
 
 ---
 
-## 9. Current database connection used by the app
+## 9. Keycloak
+
+Open in browser:
+
+```text
+http://127.0.0.1:8081
+```
+
+Admin console:
+
+```text
+http://127.0.0.1:8081/admin
+```
+
+Login values:
+
+- **Username**: `admin`
+- **Password**: `admin`
+
+Keycloak runs in development mode (`start-dev`) and stores its data in the `keycloak` database on the same PostgreSQL instance. The database and user are created automatically on first `docker compose up` via `postgres-init/01-keycloak.sql`.
+
+---
+
+## 10. Current database connection used by the app
 
 Example connection string used in `database.py`:
 
@@ -214,7 +250,7 @@ Notes:
 
 ---
 
-## 10. Useful commands
+## 11. Useful commands
 
 ### Start Docker services
 
@@ -243,7 +279,7 @@ docker ps
 ### Run app
 
 ```powershell
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 
 ### Save dependencies
@@ -254,24 +290,25 @@ pip freeze > requirements.txt
 
 ---
 
-## 11. Typical local flow
+## 12. Typical local flow
 
 Each time you start working:
 
 ```powershell
 docker compose up -d
 .\.venv\Scripts\Activate.ps1
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 
 Then open:
 
 - Swagger UI: `http://127.0.0.1:8000/docs`
 - Adminer: `http://127.0.0.1:8080`
+- Keycloak admin: `http://127.0.0.1:8081/admin`
 
 ---
 
-## 12. Common issues
+## 13. Common issues
 
 ### PowerShell cannot activate the venv
 
@@ -305,13 +342,26 @@ Make sure:
 - port `5432` is exposed
 - `DATABASE_URL` points to `localhost:5432`
 
+### Keycloak does not start
+
+Keycloak depends on PostgreSQL. Make sure the `postgres` container is healthy first:
+
+```powershell
+docker ps
+docker logs local-keycloak
+```
+
+If starting for the first time after a `docker compose down -v`, the init script re-creates the `keycloak` database automatically.
+
 ---
 
-## 13. Next improvements
+## 14. Next improvements
 
 Possible next steps:
 
 - move config into a `.env` file
+- configure a Keycloak realm and client for the FastAPI app
+- protect FastAPI endpoints with Keycloak JWT tokens
 - add Alembic migrations
 - add more JSONB queries
 - add indexes for frequently queried JSONB fields
