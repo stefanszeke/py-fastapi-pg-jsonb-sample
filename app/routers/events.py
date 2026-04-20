@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy import select, cast, Integer
 from sqlalchemy.orm import Session
 
-from app.auth import get_current_role, serialize_event
+from app.auth import AuthContext, get_auth, serialize_event
 from app.database import get_db
 from app.models import Event
 from app.schemas import EventCreate, EventRead, EventFilter
@@ -28,41 +28,41 @@ def create_event(data: EventCreate, db: Session = Depends(get_db)):
 @router.get("", response_model=list[EventRead])
 def list_events(
     db: Session = Depends(get_db),
-    role: Annotated[str, Depends(get_current_role)] = "user",
+    auth: Annotated[AuthContext, Depends(get_auth)] = None,
 ):
     events = db.scalars(select(Event).order_by(Event.id)).all()
-    return [serialize_event(e, role) for e in events]
+    return [serialize_event(e, auth) for e in events]
 
 
 @router.get("/by-kind/{kind}", response_model=list[EventRead])
 def events_by_kind(
     kind: str,
     db: Session = Depends(get_db),
-    role: Annotated[str, Depends(get_current_role)] = "user",
+    auth: Annotated[AuthContext, Depends(get_auth)] = None,
 ):
     stmt = select(Event).where(Event.public_payload["kind"].astext == kind)
     events = db.scalars(stmt).all()
-    return [serialize_event(e, role) for e in events]
+    return [serialize_event(e, auth) for e in events]
 
 
 @router.get("/longer-than/{min_length}", response_model=list[EventRead])
 def events_longer_than(
     min_length: int,
     db: Session = Depends(get_db),
-    role: Annotated[str, Depends(get_current_role)] = "user",
+    auth: Annotated[AuthContext, Depends(get_auth)] = None,
 ):
     stmt = select(Event).where(
         cast(Event.caver_payload["length_m"].astext, Integer) > min_length
     )
     events = db.scalars(stmt).all()
-    return [serialize_event(e, role) for e in events]
+    return [serialize_event(e, auth) for e in events]
 
 
 @router.get("/filter", response_model=list[EventRead])
 def filter_events(
     filters: Annotated[EventFilter, Query()],
     db: Session = Depends(get_db),
-    role: Annotated[str, Depends(get_current_role)] = "user",
+    auth: Annotated[AuthContext, Depends(get_auth)] = None,
 ):
     stmt = select(Event)
 
@@ -88,4 +88,4 @@ def filter_events(
         )
 
     events = db.scalars(stmt).all()
-    return [serialize_event(e, role) for e in events]
+    return [serialize_event(e, auth) for e in events]

@@ -1,5 +1,6 @@
 import os
 import httpx
+from dataclasses import dataclass, field
 from functools import lru_cache
 from typing import Annotated
 
@@ -13,10 +14,20 @@ from app.schemas import EventRead
 KEYCLOAK_URL = os.getenv("KEYCLOAK_URL", "http://localhost:8081")
 KEYCLOAK_REALM = os.getenv("KEYCLOAK_REALM", "caves")
 KEYCLOAK_CLIENT_ID = os.getenv("KEYCLOAK_CLIENT_ID", "caves-api")
+EXPECTED_ISSUER = f"{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}"
 
 VALID_ROLES = {"admin", "user", "caver", "researcher"}
 
 _bearer = HTTPBearer()
+
+
+@dataclass
+class AuthContext:
+    username: str
+    roles: set[str] = field(default_factory=set)
+
+    def has_role(self, *roles: str) -> bool:
+        return bool(self.roles & set(roles))
 
 
 @lru_cache(maxsize=1)
@@ -25,9 +36,6 @@ def _get_jwks() -> dict:
     response = httpx.get(url, timeout=10)
     response.raise_for_status()
     return response.json()
-
-
-EXPECTED_ISSUER = f"{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}"
 
 
 def _decode_token(token: str) -> dict:
@@ -40,36 +48,41 @@ def _decode_token(token: str) -> dict:
             options={"verify_aud": False},  # aud="account" for public clients; we check azp below
         )
     except JWTError as e:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid token: {e}")
+        # TODO: replace with proper logger (e.g. logger.warning("JWT decode failed: %s", e))
+        print(f"JWT decode failed: {e}")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 
     if claims.get("azp") != KEYCLOAK_CLIENT_ID:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Token not issued for this client (azp={claims.get('azp')!r})",
-        )
+        # TODO: replace with proper logger
+        print(f"JWT azp mismatch: expected={KEYCLOAK_CLIENT_ID!r} got={claims.get('azp')!r}")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 
     return claims
 
 
-def get_current_role(
+def get_auth(
     credentials: Annotated[HTTPAuthorizationCredentials, Depends(_bearer)],
-) -> str:
+) -> AuthContext:
     claims = _decode_token(credentials.credentials)
-    realm_roles: list[str] = claims.get("realm_access", {}).get("roles", [])
 
-    for role in ("admin", "researcher", "caver", "user"):
-        if role in realm_roles:
-            return role
+    all_roles: set[str] = set(claims.get("realm_access", {}).get("roles", []))
+    app_roles = all_roles & VALID_ROLES
 
-    raise HTTPException(
-        status_code=status.HTTP_403_FORBIDDEN,
-        detail=f"Token has no recognised role. Expected one of: {sorted(VALID_ROLES)}",
+    if not app_roles:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"Token has no recognized role. Expected one of: {sorted(VALID_ROLES)}",
+        )
+
+    return AuthContext(
+        username=claims.get("preferred_username", "unknown"),
+        roles=app_roles,
     )
 
 
-def serialize_event(event: Event, role: str) -> EventRead:
-    caver_data = dict(event.caver_payload) if role in {"caver", "researcher", "admin"} else None
-    scientific_data = dict(event.scientific_payload) if role in {"researcher", "admin"} else None
+def serialize_event(event: Event, auth: AuthContext) -> EventRead:
+    caver_data = dict(event.caver_payload) if auth.has_role("caver", "researcher", "admin") else None
+    scientific_data = dict(event.scientific_payload) if auth.has_role("researcher", "admin") else None
 
     return EventRead(
         id=event.id,
