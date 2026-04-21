@@ -7,33 +7,30 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
+from sqlalchemy import select
 
 from app.models import Event
-from app.schemas import EventRead
 
 # -- Keycloak config ----------------------------------------------------------
 KEYCLOAK_URL = os.getenv("KEYCLOAK_URL", "http://localhost:8081")
 KEYCLOAK_REALM = os.getenv("KEYCLOAK_REALM", "caves")
 KEYCLOAK_CLIENT_ID = os.getenv("KEYCLOAK_CLIENT_ID", "caves-api")
-EXPECTED_ISSUER = f"{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}"  # matched against token "iss" claim
-
-# Only these roles are meaningful to the app; all other Keycloak built-ins are ignored.
-VALID_ROLES = {"admin", "user", "caver", "researcher"}
+EXPECTED_ISSUER = f"{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}"
 
 _bearer = HTTPBearer()
 
 
 # -- Auth context -------------------------------------------------------------
-# Passed to every route after the token is verified.
-# Holds the full role set so routes can do compound checks via has_role().
 @dataclass
 class AuthContext:
     username: str
-    roles: set[str] = field(default_factory=set)
+    permissions: set[str] = field(default_factory=set)
 
-    def has_role(self, *roles: str) -> bool:
-        """Return True if the user holds at least one of the given roles."""
-        return bool(self.roles & set(roles))
+    def has_any(self, *perms: str) -> bool:
+        return bool(self.permissions & set(perms))
+
+    def has_all(self, *perms: str) -> bool:
+        return set(perms).issubset(self.permissions)
 
 
 # -- JWKS cache ---------------------------------------------------------------
@@ -63,14 +60,12 @@ def _cached_kids() -> set[str]:
 
 # -- Token decoding -----------------------------------------------------------
 def _decode_token(token: str) -> dict:
-    # Read kid from header (no signature check) to decide whether to refresh JWKS.
     try:
         kid = jwt.get_unverified_header(token).get("kid")
     except JWTError as e:
         print(f"JWT header parse failed: {e}")  # TODO: replace with proper logger
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 
-    # Unknown kid means Keycloak rotated its keys — fetch fresh JWKS before decoding.
     jwks = _get_jwks(force=kid not in _cached_kids())
 
     try:
@@ -79,13 +74,12 @@ def _decode_token(token: str) -> dict:
             jwks,
             algorithms=["RS256"],
             issuer=EXPECTED_ISSUER,
-            options={"verify_aud": False},  # public clients set aud="account"; we check azp instead
+            options={"verify_aud": False},
         )
     except JWTError as e:
         print(f"JWT decode failed: {e}")  # TODO: replace with proper logger
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 
-    # azp (authorized party) identifies the client the token was issued for.
     if claims.get("azp") != KEYCLOAK_CLIENT_ID:
         print(f"JWT azp mismatch: expected={KEYCLOAK_CLIENT_ID!r} got={claims.get('azp')!r}")  # TODO: replace with proper logger
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
@@ -99,31 +93,43 @@ def get_auth(
 ) -> AuthContext:
     claims = _decode_token(credentials.credentials)
 
-    # Strip Keycloak built-ins, keep only app roles.
-    all_roles: set[str] = set(claims.get("realm_access", {}).get("roles", []))
-    app_roles = all_roles & VALID_ROLES
+    # Client roles on caves-api are the source of truth for API permissions.
+    # Keycloak puts client roles under resource_access, not realm_access.
+    client_roles: set[str] = set(
+        claims.get("resource_access", {}).get(KEYCLOAK_CLIENT_ID, {}).get("roles", [])
+    )
 
-    if not app_roles:
+    if not client_roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail=f"Token has no recognized role. Expected one of: {sorted(VALID_ROLES)}",
+            detail="Token has no permissions for this API",
         )
 
     return AuthContext(
         username=claims.get("preferred_username", "unknown"),
-        roles=app_roles,
+        permissions=client_roles,
     )
 
 
-# -- Serialization ------------------------------------------------------------
-def serialize_event(event: Event, auth: AuthContext) -> EventRead:
-    caver_data = dict(event.caver_payload) if auth.has_role("caver", "researcher", "admin") else None
-    scientific_data = dict(event.scientific_payload) if auth.has_role("researcher", "admin") else None
+# -- Authorization guard ------------------------------------------------------
+def require_any(*permissions: str):
+    """Dependency factory: passes if the token holds at least one of the given permissions."""
+    def checker(auth: Annotated[AuthContext, Depends(get_auth)]) -> AuthContext:
+        if not auth.has_any(*permissions):
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
+        return auth
+    return checker
 
-    return EventRead(
-        id=event.id,
-        name=event.name,
-        public_payload=dict(event.public_payload),
-        caver_payload=caver_data,
-        scientific_payload=scientific_data,
-    )
+
+# -- Role-aware SQL projection ------------------------------------------------
+def event_select_for(auth: AuthContext):
+    """Return a SELECT that only fetches columns the caller is allowed to read."""
+    columns = [Event.id, Event.name, Event.public_payload]
+
+    if auth.has_any("events:read_caver", "events:read_scientific"):
+        columns.append(Event.caver_payload)
+
+    if auth.has_any("events:read_scientific"):
+        columns.append(Event.scientific_payload)
+
+    return select(*columns)
