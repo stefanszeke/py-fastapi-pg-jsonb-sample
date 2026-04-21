@@ -20,7 +20,7 @@ swagger:\
 `http://127.0.0.1:8000/docs`
 
 adminer:\
-`http://127.0.postg0.1:8080`
+`http://127.0.0.1:8080`
 
 keycloak:\
 `http://127.0.0.1:8081`
