@@ -11,6 +11,8 @@ from app.schemas import EventCreate, EventRead, EventFilter
 router = APIRouter(prefix="/events", tags=["events"])
 
 
+
+
 @router.post("", response_model=EventRead)
 def create_event(
     data: EventCreate,
@@ -18,6 +20,7 @@ def create_event(
     auth: Annotated[AuthContext, Depends(require_any("events:create"))] = None,
 ):
     event = Event(
+        cave_id=data.cave_id,
         name=data.name,
         public_payload=data.public_payload,
         caver_payload=data.caver_payload,

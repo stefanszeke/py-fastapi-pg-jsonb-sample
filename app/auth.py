@@ -14,7 +14,8 @@ from app.models import Event
 # -- Keycloak config ----------------------------------------------------------
 KEYCLOAK_URL = os.getenv("KEYCLOAK_URL", "http://localhost:8081")
 KEYCLOAK_REALM = os.getenv("KEYCLOAK_REALM", "caves")
-KEYCLOAK_CLIENT_ID = os.getenv("KEYCLOAK_CLIENT_ID", "caves-api")
+KEYCLOAK_API_AUDIENCE = os.getenv("KEYCLOAK_API_AUDIENCE", "caves-api")
+KEYCLOAK_ALLOWED_AZP = os.getenv("KEYCLOAK_ALLOWED_AZP", "caves-web")
 EXPECTED_ISSUER = f"{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}"
 
 _bearer = HTTPBearer()
@@ -74,14 +75,16 @@ def _decode_token(token: str) -> dict:
             jwks,
             algorithms=["RS256"],
             issuer=EXPECTED_ISSUER,
-            options={"verify_aud": False},
+            audience=KEYCLOAK_API_AUDIENCE,
         )
     except JWTError as e:
         print(f"JWT decode failed: {e}")  # TODO: replace with proper logger
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 
-    if claims.get("azp") != KEYCLOAK_CLIENT_ID:
-        print(f"JWT azp mismatch: expected={KEYCLOAK_CLIENT_ID!r} got={claims.get('azp')!r}")  # TODO: replace with proper logger
+    allowed_azp = {x.strip() for x in KEYCLOAK_ALLOWED_AZP.split(",") if x.strip()}
+    azp = claims.get("azp")
+    if allowed_azp and azp not in allowed_azp:
+        print(f"JWT azp mismatch: allowed={allowed_azp!r} got={azp!r}")  # TODO: replace with proper logger
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 
     return claims
@@ -93,10 +96,8 @@ def get_auth(
 ) -> AuthContext:
     claims = _decode_token(credentials.credentials)
 
-    # Client roles on caves-api are the source of truth for API permissions.
-    # Keycloak puts client roles under resource_access, not realm_access.
     client_roles: set[str] = set(
-        claims.get("resource_access", {}).get(KEYCLOAK_CLIENT_ID, {}).get("roles", [])
+        claims.get("resource_access", {}).get(KEYCLOAK_API_AUDIENCE, {}).get("roles", [])
     )
 
     if not client_roles:
@@ -124,7 +125,7 @@ def require_any(*permissions: str):
 # -- Role-aware SQL projection ------------------------------------------------
 def event_select_for(auth: AuthContext):
     """Return a SELECT that only fetches columns the caller is allowed to read."""
-    columns = [Event.id, Event.name, Event.public_payload]
+    columns = [Event.id, Event.cave_id, Event.name, Event.public_payload]
 
     if auth.has_any("events:read_caver", "events:read_scientific"):
         columns.append(Event.caver_payload)
