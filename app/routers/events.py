@@ -42,6 +42,17 @@ def list_events(
     return [EventRead(**row) for row in rows]
 
 
+@router.get("/by-cave/{cave_id}", response_model=list[EventRead])
+def events_by_cave(
+    cave_id: int,
+    db: Session = Depends(get_db),
+    auth: Annotated[AuthContext, Depends(require_any("events:read"))] = None,
+):
+    stmt = event_select_for(auth).where(Event.cave_id == cave_id)
+    rows = db.execute(stmt).mappings().all()
+    return [EventRead(**row) for row in rows]
+
+
 @router.get("/by-kind/{kind}", response_model=list[EventRead])
 def events_by_kind(
     kind: str,

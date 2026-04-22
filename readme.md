@@ -10,6 +10,9 @@ docker compose down -v
 docker compose up -d
 ```
 
+install:\
+`pip install -r requirements.txt`
+
 run:\
 `uvicorn app.main:app --reload`
 
