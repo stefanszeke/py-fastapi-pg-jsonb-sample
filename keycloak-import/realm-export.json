@@ -434,6 +434,15 @@
           "attributes": {}
         },
         {
+          "id": "98a59412-c791-4459-80cf-08fb1ee0636b",
+          "name": "admin",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "3743e7aa-1b9f-42e6-aa57-cc8681153964",
+          "attributes": {}
+        },
+        {
           "id": "7b203c66-6a52-4bd6-b4f4-ff800c86098a",
           "name": "caves:read",
           "description": "Read cave list and coordinates",
@@ -454,7 +463,77 @@
       ]
     }
   },
-  "groups": [],
+  "groups": [
+    {
+      "id": "c8b4ca4c-84f7-46d2-b518-8245defda915",
+      "name": "admin",
+      "description": "",
+      "path": "/admin",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "caves-api": [
+          "events:create",
+          "events:read_scientific",
+          "events:read",
+          "admin",
+          "caves:read",
+          "events:read_caver"
+        ]
+      }
+    },
+    {
+      "id": "ace37c03-4bf6-4a2f-a9f1-06c8ad4af2f8",
+      "name": "caver",
+      "description": "",
+      "path": "/caver",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "caves-api": [
+          "events:create",
+          "events:read",
+          "caves:read",
+          "events:read_caver"
+        ]
+      }
+    },
+    {
+      "id": "0d75a5f3-8032-4cb1-84ff-720e6c321e36",
+      "name": "researcher",
+      "description": "",
+      "path": "/researcher",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "caves-api": [
+          "events:create",
+          "events:read_scientific",
+          "events:read",
+          "caves:read",
+          "events:read_caver"
+        ]
+      }
+    },
+    {
+      "id": "81b67374-fb12-43df-b401-f98bca88fccd",
+      "name": "visitor",
+      "description": "",
+      "path": "/visitor",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "caves-api": [
+          "events:read",
+          "caves:read"
+        ]
+      }
+    }
+  ],
   "defaultRole": {
     "id": "7a8b941d-9464-4fc2-82b0-3852273ca0aa",
     "name": "default-roles-caves",
@@ -2695,6 +2774,7 @@
       "lastName": "Caver",
       "email": "alice@caves.local",
       "credentials": [{"type": "password", "value": "secret", "temporary": false}],
+      "groups": ["/caver"],
       "clientRoles": {
         "caves-api": ["events:read", "events:read_caver", "caves:read"]
       }
@@ -2706,6 +2786,7 @@
       "lastName": "Researcher",
       "email": "bob@caves.local",
       "credentials": [{"type": "password", "value": "secret", "temporary": false}],
+      "groups": ["/researcher"],
       "clientRoles": {
         "caves-api": ["events:read_scientific", "caves:read"]
       }
@@ -2717,6 +2798,7 @@
       "lastName": "Visitor",
       "email": "charlie@caves.local",
       "credentials": [{"type": "password", "value": "secret", "temporary": false}],
+      "groups": ["/visitor"],
       "clientRoles": {
         "caves-api": ["events:read", "caves:read"]
       }
@@ -2728,6 +2810,7 @@
       "lastName": "User",
       "email": "admin@caves.local",
       "credentials": [{"type": "password", "value": "admin", "temporary": false}],
+      "groups": ["/admin"],
       "clientRoles": {
         "caves-api": ["events:read", "events:read_caver", "events:read_scientific", "events:create", "caves:read"]
       }
