@@ -31,6 +31,9 @@ keycloak:\
 keycloak admin console:\
 `http://127.0.0.1:8081/admin` (admin / admin)
 
+Mailpit <- fake SMTP server: \
+`http://localhost:8025`
+
 filter examples:\
 ```
 /events/filter?kind=cave

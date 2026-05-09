@@ -96,6 +96,12 @@ def get_auth(
 ) -> AuthContext:
     claims = _decode_token(credentials.credentials)
 
+    if not claims.get("email_verified"):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Email address not verified",
+        )
+
     client_roles: set[str] = set(
         claims.get("resource_access", {}).get(KEYCLOAK_API_AUDIENCE, {}).get("roles", [])
     )
