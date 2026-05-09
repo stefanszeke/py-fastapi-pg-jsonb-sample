@@ -28,7 +28,7 @@
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
   "sslRequired": "none",
-  "registrationAllowed": false,
+  "registrationAllowed": true,
   "registrationEmailAsUsername": false,
   "rememberMe": false,
   "verifyEmail": false,
@@ -533,6 +533,9 @@
         ]
       }
     }
+  ],
+  "defaultGroups": [
+    "/visitor"
   ],
   "defaultRole": {
     "id": "7a8b941d-9464-4fc2-82b0-3852273ca0aa",
