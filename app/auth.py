@@ -9,7 +9,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 from sqlalchemy import select
 
-from app.models import Event
+from app.models import CaveSurvey
 
 # -- Keycloak config ----------------------------------------------------------
 KEYCLOAK_URL = os.getenv("KEYCLOAK_URL", "http://localhost:8081")
@@ -64,7 +64,7 @@ def _decode_token(token: str) -> dict:
     try:
         kid = jwt.get_unverified_header(token).get("kid")
     except JWTError as e:
-        print(f"JWT header parse failed: {e}")  # TODO: replace with proper logger
+        print(f"JWT header parse failed: {e}")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 
     jwks = _get_jwks(force=kid not in _cached_kids())
@@ -78,13 +78,13 @@ def _decode_token(token: str) -> dict:
             audience=KEYCLOAK_API_AUDIENCE,
         )
     except JWTError as e:
-        print(f"JWT decode failed: {e}")  # TODO: replace with proper logger
+        print(f"JWT decode failed: {e}")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 
     allowed_azp = {x.strip() for x in KEYCLOAK_ALLOWED_AZP.split(",") if x.strip()}
     azp = claims.get("azp")
     if allowed_azp and azp not in allowed_azp:
-        print(f"JWT azp mismatch: allowed={allowed_azp!r} got={azp!r}")  # TODO: replace with proper logger
+        print(f"JWT azp mismatch: allowed={allowed_azp!r} got={azp!r}")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
 
     return claims
@@ -128,15 +128,15 @@ def require_any(*permissions: str):
     return checker
 
 
-# -- Role-aware SQL projection ------------------------------------------------
-def event_select_for(auth: AuthContext):
+# -- Role-aware SQL projection for cave surveys -------------------------------
+def survey_select_for(auth: AuthContext):
     """Return a SELECT that only fetches columns the caller is allowed to read."""
-    columns = [Event.id, Event.cave_id, Event.name, Event.public_payload]
+    columns = [CaveSurvey.id, CaveSurvey.cave_id, CaveSurvey.name, CaveSurvey.public_payload]
 
-    if auth.has_any("events:read_caver", "events:read_scientific"):
-        columns.append(Event.caver_payload)
+    if auth.has_any("surveys:read_caver", "surveys:read_scientific"):
+        columns.append(CaveSurvey.caver_payload)
 
-    if auth.has_any("events:read_scientific"):
-        columns.append(Event.scientific_payload)
+    if auth.has_any("surveys:read_scientific"):
+        columns.append(CaveSurvey.scientific_payload)
 
     return select(*columns)

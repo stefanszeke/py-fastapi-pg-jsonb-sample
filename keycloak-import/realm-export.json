@@ -408,7 +408,7 @@
       "caves-api": [
         {
           "id": "068f3f7f-651b-4ae7-96db-fd610fb16bb7",
-          "name": "events:create",
+          "name": "surveys:create",
           "description": "Create new events",
           "composite": false,
           "clientRole": true,
@@ -417,7 +417,7 @@
         },
         {
           "id": "4c3e42af-f917-46d9-898a-6732513e8973",
-          "name": "events:read_scientific",
+          "name": "surveys:read_scientific",
           "description": "Read scientific event data",
           "composite": false,
           "clientRole": true,
@@ -426,7 +426,7 @@
         },
         {
           "id": "f6ffaea2-f290-47e8-b026-71b8ed8a284d",
-          "name": "events:read",
+          "name": "surveys:read",
           "description": "Read public event data",
           "composite": false,
           "clientRole": true,
@@ -452,8 +452,17 @@
           "attributes": {}
         },
         {
+          "id": "9f1a2b3c-4d5e-6f7a-8b9c-0d1e2f3a4b5c",
+          "name": "caves:read_restricted",
+          "description": "Read exact cave locations including restricted caves",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "3743e7aa-1b9f-42e6-aa57-cc8681153964",
+          "attributes": {}
+        },
+        {
           "id": "dab57ead-6759-46a5-abb8-3adfb3dbb2ee",
-          "name": "events:read_caver",
+          "name": "surveys:read_caver",
           "description": "Read caver-level event data",
           "composite": false,
           "clientRole": true,
@@ -474,12 +483,13 @@
       "realmRoles": [],
       "clientRoles": {
         "caves-api": [
-          "events:create",
-          "events:read_scientific",
-          "events:read",
+          "surveys:create",
+          "surveys:read_scientific",
+          "surveys:read",
           "admin",
           "caves:read",
-          "events:read_caver"
+          "caves:read_restricted",
+          "surveys:read_caver"
         ]
       }
     },
@@ -493,10 +503,11 @@
       "realmRoles": [],
       "clientRoles": {
         "caves-api": [
-          "events:create",
-          "events:read",
+          "surveys:create",
+          "surveys:read",
           "caves:read",
-          "events:read_caver"
+          "caves:read_restricted",
+          "surveys:read_caver"
         ]
       }
     },
@@ -510,11 +521,12 @@
       "realmRoles": [],
       "clientRoles": {
         "caves-api": [
-          "events:create",
-          "events:read_scientific",
-          "events:read",
+          "surveys:create",
+          "surveys:read_scientific",
+          "surveys:read",
           "caves:read",
-          "events:read_caver"
+          "caves:read_restricted",
+          "surveys:read_caver"
         ]
       }
     },
@@ -528,7 +540,7 @@
       "realmRoles": [],
       "clientRoles": {
         "caves-api": [
-          "events:read",
+          "surveys:read",
           "caves:read"
         ]
       }
@@ -2787,7 +2799,7 @@
       "credentials": [{"type": "password", "value": "secret", "temporary": false}],
       "groups": ["/caver"],
       "clientRoles": {
-        "caves-api": ["events:read", "events:read_caver", "caves:read"]
+        "caves-api": ["surveys:read", "surveys:read_caver", "caves:read"]
       }
     },
     {
@@ -2799,7 +2811,7 @@
       "credentials": [{"type": "password", "value": "secret", "temporary": false}],
       "groups": ["/researcher"],
       "clientRoles": {
-        "caves-api": ["events:read_scientific", "caves:read"]
+        "caves-api": ["surveys:read_scientific", "caves:read"]
       }
     },
     {
@@ -2811,7 +2823,7 @@
       "credentials": [{"type": "password", "value": "secret", "temporary": false}],
       "groups": ["/visitor"],
       "clientRoles": {
-        "caves-api": ["events:read", "caves:read"]
+        "caves-api": ["surveys:read", "caves:read"]
       }
     },
     {
@@ -2823,7 +2835,7 @@
       "credentials": [{"type": "password", "value": "admin", "temporary": false}],
       "groups": ["/admin"],
       "clientRoles": {
-        "caves-api": ["events:read", "events:read_caver", "events:read_scientific", "events:create", "caves:read"]
+        "caves-api": ["surveys:read", "surveys:read_caver", "surveys:read_scientific", "surveys:create", "caves:read"]
       }
     }
   ]

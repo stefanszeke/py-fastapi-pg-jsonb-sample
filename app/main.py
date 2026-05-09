@@ -5,26 +5,23 @@ load_dotenv()
 
 from fastapi import FastAPI
 
-from app.database import Base, engine
-from app.routers import events
-from app.routers import caves
-
-Base.metadata.create_all(bind=engine)
+from app.routers import caves, surveys, entrances, survey_lines, protected_areas
 
 app = FastAPI()
-origins = [
-    "http://localhost:5173",
-]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(events.router)
 app.include_router(caves.router)
+app.include_router(surveys.router)
+app.include_router(entrances.router)
+app.include_router(survey_lines.router)
+app.include_router(protected_areas.router)
 
 
 @app.get("/")
