@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from geoalchemy2.functions import ST_X, ST_Y, ST_SnapToGrid
+from geoalchemy2.functions import ST_X, ST_Y
 
 from app.auth import AuthContext, require_any
 from app.database import get_db
@@ -21,15 +21,10 @@ def list_caves(
 ):
     exact = auth.has_any("caves:read_restricted")
 
-    if exact:
-        lon_col = ST_X(Cave.geom).label("lon")
-        lat_col = ST_Y(Cave.geom).label("lat")
-    else:
-        lon_col = ST_X(ST_SnapToGrid(Cave.geom, 0.05)).label("lon")
-        lat_col = ST_Y(ST_SnapToGrid(Cave.geom, 0.05)).label("lat")
-
     stmt = select(
-        Cave.id, Cave.name, lon_col, lat_col,
+        Cave.id, Cave.name,
+        ST_X(Cave.geom).label("lon"),
+        ST_Y(Cave.geom).label("lat"),
         Cave.cave_type, Cave.region, Cave.municipality,
         Cave.length_m, Cave.depth_m, Cave.is_public, Cave.sensitivity_level,
     )
