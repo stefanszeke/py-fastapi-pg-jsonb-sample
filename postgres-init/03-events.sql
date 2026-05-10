@@ -636,3 +636,476 @@ INSERT INTO cave_survey_lines (cave_id, geom, payload) VALUES
   '{"passage_name": "schematic main passage", "source_note": "Generated schematic line from public entrance coordinate; not an official cave survey.", "source_url": "https://anp.hu/en/tura/10/beke-cave-tour", "surveyed_by": "sample_data_schematic", "year": 2026}'
 );
 
+-- ── Additional Slovak caves, batch 2 ─────────────────────────────────────
+-- Adds 20 more Slovakia-only cave records after ids ...000026 to ...000045.
+-- Sources are public tourist/SSJ/geosite pages. Some coordinates are approximate
+-- public locality points where the source gives a locality but no official GPS.
+-- Schematic cave_survey_lines are generated demo geometry, not official surveys.
+
+INSERT INTO caves (id, name, cave_type, region, municipality, geom, length_m, depth_m, is_public, sensitivity_level, payload) VALUES
+(
+  'a0000001-0000-0000-0000-000000000026',
+  'Malá Stanišovská jaskyňa',
+  'Karst cave',
+  'Žilina',
+  'Liptovský Ján',
+  ST_SetSRID(ST_MakePoint(19.674167, 49.008056), 4326),
+  871, 28, true, 'public',
+  '{"source_url":"https://www.visitliptov.sk/zaujimavosti/stanisovska-jaskyna-janska-dolina/","source_note":"Visit Liptov lists Malá Stanišovská Cave with length 871 m, depth 28 m and GPS N 49°00''29\", E 19°40''27\". SSJ describes the wider Stanišovská cave group.","protected":true,"unesco":false,"tags":["karst","show_cave","headlamp_tour","liptov"],"features":["unlit guided cave","Stanišovské cave group","bats"],"geology":"Middle Triassic Gutenstein limestone","difficulty":"easy","equipment":["helmet","lamp","sturdy shoes","jacket"],"tour_length_m":410,"temperature_c":7,"is_approx":false,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000027',
+  'Jaskyňa mŕtvych netopierov',
+  'High-mountain karst cave',
+  'Banská Bystrica',
+  'Brezno',
+  ST_SetSRID(ST_MakePoint(19.640278, 48.925833), 4326),
+  19885, 324, true, 'restricted',
+  '{"source_url":"https://www.visitliptov.sk/en/interests/dead-bats-cave-low-tatras/","source_note":"Visit Liptov lists the underground labyrinth as 19,885 m long and 324 m deep; Slovakia Travel gives public GPS N48°55''33\" E19°38''25\".","protected":true,"unesco":false,"tags":["karst","other_show_cave","adventure_tour","low_tatras"],"features":["14 known levels","bat bone finds","Bystrický Dome","alpine cave"],"geology":"limestone in the Ďumbier high-mountain karst","difficulty":"hard","equipment":["helmet","lamp","warm clothes","sturdy shoes"],"tour_length_m":1000,"temperature_c":4,"elevation_m":1520,"is_approx":false,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000028',
+  'Zlá diera',
+  'Karst cave',
+  'Prešov',
+  'Lipovce',
+  ST_SetSRID(ST_MakePoint(20.943889, 49.053333), 4326),
+  NULL, NULL, true, 'public',
+  '{"source_url":"https://slovakia.travel/en/zla-diera-cave","source_note":"Slovakia Travel gives GPS N49°3''12\" E20°56''38\" and describes it as the only accessible cave in north-east Slovakia; trustworthy total length/depth not inserted here.","protected":true,"unesco":false,"tags":["karst","other_show_cave","unlit","saris"],"features":["unlit guided cave","traditional carbide lamp tours","only accessible cave in Prešov district"],"geology":"limestone and dolomite in Bachureň/Branisko area","difficulty":"medium","equipment":["helmet","lamp","sturdy shoes","warm clothes"],"tour_length_m":800,"temperature_c":7,"is_approx":false,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000029',
+  'Prepoštská jaskyňa',
+  'Travertine cave / rock shelter',
+  'Trenčín',
+  'Bojnice',
+  ST_SetSRID(ST_MakePoint(18.583333, 48.777778), 4326),
+  14, NULL, true, 'public',
+  '{"source_url":"https://www.ssj.sk/en/clanok/220-prepostska-cave","source_note":"SSJ describes an internal space of about 6 m plus a narrow 8 m passage; Slovakia Travel gives GPS N48°46''40\" E18°35''0\".","protected":true,"unesco":false,"tags":["travertine","archaeology","museum","neanderthal_site"],"features":["prehistoric museum","rock overhang","important archaeological site"],"geology":"travertine formed by mineral spring activity","difficulty":"easy","equipment":["normal visitor clothing"],"elevation_m":242,"is_approx":false,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000030',
+  'Bojnická hradná jaskyňa',
+  'Travertine cave',
+  'Trenčín',
+  'Bojnice',
+  ST_SetSRID(ST_MakePoint(18.577778, 48.780000), 4326),
+  NULL, NULL, true, 'public',
+  '{"source_url":"https://slovakia.travel/en/bojnicka-hradna-jaskyna-cave","source_note":"Slovakia Travel gives GPS N48°46''48\" E18°34''40\" and describes a 22 m diameter, 6 m high natural cave 26 m below the fourth courtyard.","protected":true,"unesco":false,"tags":["travertine","castle_cave","tourism"],"features":["circular chamber","diameter about 22 m","height about 6 m","castle well"],"geology":"travertine cave below Bojnice Castle","difficulty":"easy","equipment":["normal visitor clothing"],"diameter_m":22,"height_m":6,"below_courtyard_m":26,"is_approx":false,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000031',
+  'Okno Cave',
+  'Fluvial karst cave',
+  'Žilina',
+  'Demänovská Dolina',
+  ST_SetSRID(ST_MakePoint(19.582900, 49.014800), 4326),
+  2570, 110, false, 'restricted',
+  '{"source_url":"https://www.ssj.sk/en/clanok/216-okno-cave","source_note":"SSJ gives length 2,570 m, vertical span 110 m and location in the Okno cliff at 915 m elevation. Coordinate is an approximate public map point in the Demänovská Valley, not an official entrance coordinate.","protected":true,"unesco":false,"tags":["karst","national_nature_monument","demanovska_valley","archaeology"],"features":["old tourist cave","flowstone fill","bat locality","archaeological finds"],"geology":"dark Middle Triassic limestone of the Krížna Nappe","difficulty":"restricted","equipment":["permit required"],"temperature_c":6.2,"elevation_m":915,"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000032',
+  'Drienovská jaskyňa',
+  'Spring river cave',
+  'Košice',
+  'Drienovec',
+  ST_SetSRID(ST_MakePoint(20.919000, 48.623900), 4326),
+  1348, 85, false, 'restricted',
+  '{"source_url":"https://www.ssj.sk/en/clanok/201-drienovska-cave","source_note":"SSJ gives length 1,348 m, vertical span 85 m and location north of Drienovec at the mouth of the Miglinc Valley. Coordinate is approximate public map placement.","protected":true,"unesco":true,"tags":["karst","national_nature_monument","slovak_karst","bats"],"features":["underground stream","lakes","cascades","gypsum crusts","important bat locality"],"geology":"Middle Triassic Wetterstein limestone of the Silica Nappe","difficulty":"restricted","equipment":["permit required"],"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000033',
+  'Jaskyňa Zlomísk',
+  'Large karst cave system',
+  'Žilina',
+  'Liptovský Ján',
+  ST_SetSRID(ST_MakePoint(19.675500, 49.018000), 4326),
+  10688, 147, false, 'restricted',
+  '{"source_url":"https://www.ssj.sk/en/clanok/207-zlomisk-cave","source_note":"SSJ gives length 10,688 m, vertical span 147 m and location in the central karst of Jánska Valley. Coordinate is approximate public map placement.","protected":true,"unesco":false,"tags":["karst","national_nature_monument","janska_valley","low_tatras"],"features":["large cave system","two known entrances","horizontal passages","vertical connections"],"geology":"Middle Triassic Gutenstein limestone of the Choč Nappe","difficulty":"restricted","equipment":["permit required","technical caving gear"],"elevation_m":809,"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000034',
+  'Hrušovská jaskyňa',
+  'Spring cave',
+  'Košice',
+  'Hrušov',
+  ST_SetSRID(ST_MakePoint(20.635000, 48.589000), 4326),
+  780, NULL, false, 'restricted',
+  '{"source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ''s Slovak Karst world-heritage overview gives length 780 m and location close to Hrušov on the eastern foothill of the Silická Plateau. Coordinate is approximate public map placement.","protected":true,"unesco":true,"tags":["karst","slovak_karst","world_heritage","spring_cave"],"features":["underground stream","helictites","calcite crystals","flowstone shield"],"geology":"limestone cave on the eastern foothill of the Silická Plateau","difficulty":"restricted","equipment":["permit required"],"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000035',
+  'Skalistý potok Cave',
+  'Spring river cave',
+  'Košice',
+  'Háj',
+  ST_SetSRID(ST_MakePoint(20.857500, 48.626800), 4326),
+  5855, 317, false, 'highly_restricted',
+  '{"source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ''s Slovak Karst overview gives length 5,855 m and vertical distance 317 m near Háj. Coordinate is approximate public map placement.","protected":true,"unesco":true,"tags":["karst","slovak_karst","world_heritage","siphons","speleodiving"],"features":["underground stream","siphons","lakes","rapids","waterfalls"],"geology":"karst cave at the southern foothill of the Jasovská Plateau","difficulty":"technical","equipment":["permit required","technical caving gear","diving equipment in siphon sections"],"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000036',
+  'Kunia priepasť',
+  'Abyss cave',
+  'Košice',
+  'Háj',
+  ST_SetSRID(ST_MakePoint(20.842500, 48.638000), 4326),
+  813, 203, false, 'highly_restricted',
+  '{"source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives length 813 m and depth 203 m for Kunia Abyss on the southern edge of the Jasovská Plateau. Coordinate is approximate public map placement.","protected":true,"unesco":true,"tags":["abyss","karst","slovak_karst","vertical"],"features":["cascading shafts","horizontal passages","flowstone fills","possible hydrological link to Skalistý potok"],"geology":"karst abyss on the southern edge of the Jasovská Plateau","difficulty":"technical","equipment":["permit required","vertical caving gear"],"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000037',
+  'Diviačia priepasť',
+  'Abyss cave',
+  'Košice',
+  'Plešivec',
+  ST_SetSRID(ST_MakePoint(20.466000, 48.595000), 4326),
+  NULL, 123, false, 'highly_restricted',
+  '{"source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives depth 123 m and location at the eastern edge of the Plešivská Plateau. Coordinate is approximate public map placement.","protected":true,"unesco":true,"tags":["abyss","karst","slovak_karst","vertical"],"features":["corrosion-collapse abyss","flowstone decoration","water lilies and cave pearls"],"geology":"karst abyss on the eastern edge of the Plešivská Plateau","difficulty":"technical","equipment":["permit required","vertical caving gear"],"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000038',
+  'Zvonivá jama',
+  'Abyss cave',
+  'Košice',
+  'Plešivec',
+  ST_SetSRID(ST_MakePoint(20.435000, 48.565000), 4326),
+  220, 101, false, 'highly_restricted',
+  '{"source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives depth 101 m and adjacent horizontal passages 220 m long in the central Plešivská Plateau. Coordinate is approximate public map placement.","protected":true,"unesco":true,"tags":["abyss","karst","slovak_karst","vertical"],"features":["corrosion-collapse abyss","underground dome","pagoda stalagmites"],"geology":"karst abyss in the central Plešivská Plateau","difficulty":"technical","equipment":["permit required","vertical caving gear"],"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000039',
+  'Obrovská priepasť',
+  'Abyss cave',
+  'Košice',
+  'Jablonov nad Turňou',
+  ST_SetSRID(ST_MakePoint(20.675000, 48.610000), 4326),
+  NULL, 100, false, 'highly_restricted',
+  '{"source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ describes Obrovská Abyss above Jablonov nad Turnou on the Dolný vrch Plateau and gives shaft depth 100 m. Coordinate is approximate public map placement.","protected":true,"unesco":true,"tags":["abyss","karst","slovak_karst","vertical"],"features":["corrosion-collapse shaft","Dolný vrch Plateau"],"geology":"karst abyss on the Dolný vrch Plateau","difficulty":"technical","equipment":["permit required","vertical caving gear"],"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000040',
+  'Snežná diera',
+  'Ice abyss cave',
+  'Košice',
+  'Zádiel',
+  ST_SetSRID(ST_MakePoint(20.816000, 48.623500), 4326),
+  100, 25, false, 'restricted',
+  '{"source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives length 100 m and depth 25 m in the Horný vrch Plateau north of the upper Zádielska Gorge. Coordinate is approximate public map placement.","protected":true,"unesco":true,"tags":["abyss","ice","karst","slovak_karst"],"features":["permanent ice fill","crevasse-corrosion cave","Horný vrch Plateau"],"geology":"crevasse-corrosion gravitationally widened fissure","difficulty":"restricted","equipment":["permit required"],"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000041',
+  'Jaskyňa v Havranej skale',
+  'Karst cave',
+  'Košice',
+  'Stratená',
+  ST_SetSRID(ST_MakePoint(20.344044, 48.890602), 4326),
+  NULL, NULL, true, 'public',
+  '{"source_url":"https://www.ssj.sk/sk/verejnosti-volne-pristupne-jaskyne","source_note":"SSJ lists Jaskyňa v Havranej skale among caves freely open to the public. GPS is taken from a public hiking/video listing and should be treated as public approximate data.","protected":true,"unesco":false,"tags":["karst","freely_accessible","slovak_paradise"],"features":["freely accessible cave","Havrania skala area","hiking route"],"geology":"karst cave in Slovenský raj / Stratenská hornatina area","difficulty":"medium","equipment":["lamp","sturdy shoes"],"elevation_m":1128,"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000042',
+  'Zelená jaskyňa',
+  'Karst cave',
+  'Košice',
+  'Dobšiná',
+  ST_SetSRID(ST_MakePoint(20.309810, 48.859180), 4326),
+  NULL, NULL, true, 'public',
+  '{"source_url":"https://www.kamnavylet.sk/sk/atrakcia/zelena-jaskyna","source_note":"KamNaVylet gives GPS 48.85918, 20.30981 and describes it as freely accessible; SSJ also lists Zelená jaskyňa among freely open caves.","protected":true,"unesco":false,"tags":["karst","freely_accessible","slovak_paradise"],"features":["freely accessible cave","near Dobšinská Ice Cave","spacious chamber"],"geology":"karst cave in the Slovak Paradise area","difficulty":"easy","equipment":["lamp","sturdy shoes"],"is_approx":false,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000043',
+  'Mažarná',
+  'Karst cave / rock shelter',
+  'Žilina',
+  'Blatnica',
+  ST_SetSRID(ST_MakePoint(18.960278, 48.939444), 4326),
+  130, NULL, true, 'public',
+  '{"source_url":"https://www.outdooractive.com/en/route/hiking-trail/nagy-fatra/route-to-mazarna-cave/802405254/","source_note":"Outdooractive describes Mažarná as about 130 m long; Wikimedia Commons photo metadata provides public GPS near 48°56''22\"N, 18°57''37\"E.","protected":true,"unesco":false,"tags":["karst","freely_accessible","great_fatra","archaeology"],"features":["large cave in Veľká Fatra","Bronze Age finds","cave bear bones"],"geology":"karst cave in a limestone cliff of Veľká Fatra","difficulty":"medium","equipment":["lamp","sturdy shoes"],"elevation_m":830,"is_approx":false,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000044',
+  'Čertova pec',
+  'Karst cave / archaeological site',
+  'Nitra',
+  'Radošina',
+  ST_SetSRID(ST_MakePoint(17.937000, 48.549000), 4326),
+  27, NULL, true, 'public',
+  '{"source_url":"https://en.wikipedia.org/wiki/%C4%8Certova_pec","source_note":"Wikipedia summarizes the cave as 27 m long and near Radošina; SSJ lists Čertova pec among caves freely open to public.","protected":true,"unesco":false,"tags":["karst","freely_accessible","archaeology","paleolithic"],"features":["Palaeolithic site","small cave","recreational locality"],"geology":"small karst cave in Považský Inovec","difficulty":"easy","equipment":["lamp optional"],"is_approx":true,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+),
+(
+  'a0000001-0000-0000-0000-000000000045',
+  'Pružinská Dúpna jaskyňa',
+  'Karst cave',
+  'Trenčín',
+  'Pružina',
+  ST_SetSRID(ST_MakePoint(18.502660, 48.999700), 4326),
+  300, NULL, true, 'public',
+  '{"source_url":"https://visit.trencin.sk/pruzinska-dupna-jaskyna/","source_note":"Visit Trenčín gives GPS 49°00''03\"N, 18°30''17\"E; a public hiking photo description states the cave is over 300 m long. SSJ lists it among freely open caves.","protected":true,"unesco":false,"tags":["karst","freely_accessible","strážovské_vrchy","archaeology","bats"],"features":["one of the oldest known caves in Slovakia","cave lion and cave bear bones","seasonal/guided access"],"geology":"karst cave in the Čierny vrch massif above Rečica valley","difficulty":"medium","equipment":["lamp","sturdy shoes"],"elevation_m":590,"is_approx":false,"sample_data_note":"Real public cave record; schematic survey line below is generated for map demos, not an official cave survey."}'
+);
+
+INSERT INTO cave_surveys (cave_id, name, public_payload, caver_payload, scientific_payload) VALUES
+(
+  'a0000001-0000-0000-0000-000000000026',
+  'Malá Stanišovská jaskyňa public-source survey 2026',
+  '{"kind":"karst cave","tags":["karst","show_cave","headlamp_tour","liptov"],"protected":true,"region":"Žilina","source_url":"https://www.visitliptov.sk/zaujimavosti/stanisovska-jaskyna-janska-dolina/","source_note":"Visit Liptov lists Malá Stanišovská Cave with length 871 m, depth 28 m and GPS N 49°00''29\", E 19°40''27\". SSJ describes the wider Stanišovská cave group."}',
+  '{"length_m":871,"depth_m":28,"difficulty":"easy","equipment_required":["helmet","lamp","sturdy shoes","jacket"],"notable_features":["unlit guided cave","Stanišovské cave group","bats"],"coordinate_quality":"public_gps_coordinate"}',
+  '{"geology":"Middle Triassic Gutenstein limestone","source_url":"https://www.visitliptov.sk/zaujimavosti/stanisovska-jaskyna-janska-dolina/","source_note":"Visit Liptov lists Malá Stanišovská Cave with length 871 m, depth 28 m and GPS N 49°00''29\", E 19°40''27\". SSJ describes the wider Stanišovská cave group.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000027',
+  'Jaskyňa mŕtvych netopierov public-source survey 2026',
+  '{"kind":"high-mountain karst cave","tags":["karst","other_show_cave","adventure_tour","low_tatras"],"protected":true,"region":"Banská Bystrica","source_url":"https://www.visitliptov.sk/en/interests/dead-bats-cave-low-tatras/","source_note":"Visit Liptov lists the underground labyrinth as 19,885 m long and 324 m deep; Slovakia Travel gives public GPS N48°55''33\" E19°38''25\"."}',
+  '{"length_m":19885,"depth_m":324,"difficulty":"hard","equipment_required":["helmet","lamp","warm clothes","sturdy shoes"],"notable_features":["14 known levels","bat bone finds","Bystrický Dome","alpine cave"],"coordinate_quality":"public_gps_coordinate"}',
+  '{"geology":"limestone in the Ďumbier high-mountain karst","source_url":"https://www.visitliptov.sk/en/interests/dead-bats-cave-low-tatras/","source_note":"Visit Liptov lists the underground labyrinth as 19,885 m long and 324 m deep; Slovakia Travel gives public GPS N48°55''33\" E19°38''25\".","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000028',
+  'Zlá diera public-source survey 2026',
+  '{"kind":"karst cave","tags":["karst","other_show_cave","unlit","saris"],"protected":true,"region":"Prešov","source_url":"https://slovakia.travel/en/zla-diera-cave","source_note":"Slovakia Travel gives GPS N49°3''12\" E20°56''38\" and describes it as the only accessible cave in north-east Slovakia; trustworthy total length/depth not inserted here."}',
+  '{"length_m":null,"depth_m":null,"difficulty":"medium","equipment_required":["helmet","lamp","sturdy shoes","warm clothes"],"notable_features":["unlit guided cave","traditional carbide lamp tours","only accessible cave in Prešov district"],"coordinate_quality":"public_gps_coordinate"}',
+  '{"geology":"limestone and dolomite in Bachureň/Branisko area","source_url":"https://slovakia.travel/en/zla-diera-cave","source_note":"Slovakia Travel gives GPS N49°3''12\" E20°56''38\" and describes it as the only accessible cave in north-east Slovakia; trustworthy total length/depth not inserted here.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000029',
+  'Prepoštská jaskyňa public-source survey 2026',
+  '{"kind":"travertine cave / rock shelter","tags":["travertine","archaeology","museum","neanderthal_site"],"protected":true,"region":"Trenčín","source_url":"https://www.ssj.sk/en/clanok/220-prepostska-cave","source_note":"SSJ describes an internal space of about 6 m plus a narrow 8 m passage; Slovakia Travel gives GPS N48°46''40\" E18°35''0\"."}',
+  '{"length_m":14,"depth_m":null,"difficulty":"easy","equipment_required":["normal visitor clothing"],"notable_features":["prehistoric museum","rock overhang","important archaeological site"],"coordinate_quality":"public_gps_coordinate"}',
+  '{"geology":"travertine formed by mineral spring activity","source_url":"https://www.ssj.sk/en/clanok/220-prepostska-cave","source_note":"SSJ describes an internal space of about 6 m plus a narrow 8 m passage; Slovakia Travel gives GPS N48°46''40\" E18°35''0\".","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000030',
+  'Bojnická hradná jaskyňa public-source survey 2026',
+  '{"kind":"travertine cave","tags":["travertine","castle_cave","tourism"],"protected":true,"region":"Trenčín","source_url":"https://slovakia.travel/en/bojnicka-hradna-jaskyna-cave","source_note":"Slovakia Travel gives GPS N48°46''48\" E18°34''40\" and describes a 22 m diameter, 6 m high natural cave 26 m below the fourth courtyard."}',
+  '{"length_m":null,"depth_m":null,"difficulty":"easy","equipment_required":["normal visitor clothing"],"notable_features":["circular chamber","diameter about 22 m","height about 6 m","castle well"],"coordinate_quality":"public_gps_coordinate"}',
+  '{"geology":"travertine cave below Bojnice Castle","source_url":"https://slovakia.travel/en/bojnicka-hradna-jaskyna-cave","source_note":"Slovakia Travel gives GPS N48°46''48\" E18°34''40\" and describes a 22 m diameter, 6 m high natural cave 26 m below the fourth courtyard.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000031',
+  'Okno Cave public-source survey 2026',
+  '{"kind":"fluvial karst cave","tags":["karst","national_nature_monument","demanovska_valley","archaeology"],"protected":true,"region":"Žilina","source_url":"https://www.ssj.sk/en/clanok/216-okno-cave","source_note":"SSJ gives length 2,570 m, vertical span 110 m and location in the Okno cliff at 915 m elevation. Coordinate is an approximate public map point in the Demänovská Valley, not an official entrance coordinate."}',
+  '{"length_m":2570,"depth_m":110,"difficulty":"restricted","equipment_required":["permit required"],"notable_features":["old tourist cave","flowstone fill","bat locality","archaeological finds"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"dark Middle Triassic limestone of the Krížna Nappe","source_url":"https://www.ssj.sk/en/clanok/216-okno-cave","source_note":"SSJ gives length 2,570 m, vertical span 110 m and location in the Okno cliff at 915 m elevation. Coordinate is an approximate public map point in the Demänovská Valley, not an official entrance coordinate.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000032',
+  'Drienovská jaskyňa public-source survey 2026',
+  '{"kind":"spring river cave","tags":["karst","national_nature_monument","slovak_karst","bats"],"protected":true,"region":"Košice","source_url":"https://www.ssj.sk/en/clanok/201-drienovska-cave","source_note":"SSJ gives length 1,348 m, vertical span 85 m and location north of Drienovec at the mouth of the Miglinc Valley. Coordinate is approximate public map placement."}',
+  '{"length_m":1348,"depth_m":85,"difficulty":"restricted","equipment_required":["permit required"],"notable_features":["underground stream","lakes","cascades","gypsum crusts","important bat locality"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"Middle Triassic Wetterstein limestone of the Silica Nappe","source_url":"https://www.ssj.sk/en/clanok/201-drienovska-cave","source_note":"SSJ gives length 1,348 m, vertical span 85 m and location north of Drienovec at the mouth of the Miglinc Valley. Coordinate is approximate public map placement.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000033',
+  'Jaskyňa Zlomísk public-source survey 2026',
+  '{"kind":"large karst cave system","tags":["karst","national_nature_monument","janska_valley","low_tatras"],"protected":true,"region":"Žilina","source_url":"https://www.ssj.sk/en/clanok/207-zlomisk-cave","source_note":"SSJ gives length 10,688 m, vertical span 147 m and location in the central karst of Jánska Valley. Coordinate is approximate public map placement."}',
+  '{"length_m":10688,"depth_m":147,"difficulty":"restricted","equipment_required":["permit required","technical caving gear"],"notable_features":["large cave system","two known entrances","horizontal passages","vertical connections"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"Middle Triassic Gutenstein limestone of the Choč Nappe","source_url":"https://www.ssj.sk/en/clanok/207-zlomisk-cave","source_note":"SSJ gives length 10,688 m, vertical span 147 m and location in the central karst of Jánska Valley. Coordinate is approximate public map placement.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000034',
+  'Hrušovská jaskyňa public-source survey 2026',
+  '{"kind":"spring cave","tags":["karst","slovak_karst","world_heritage","spring_cave"],"protected":true,"region":"Košice","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ''s Slovak Karst world-heritage overview gives length 780 m and location close to Hrušov on the eastern foothill of the Silická Plateau. Coordinate is approximate public map placement."}',
+  '{"length_m":780,"depth_m":null,"difficulty":"restricted","equipment_required":["permit required"],"notable_features":["underground stream","helictites","calcite crystals","flowstone shield"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"limestone cave on the eastern foothill of the Silická Plateau","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ''s Slovak Karst world-heritage overview gives length 780 m and location close to Hrušov on the eastern foothill of the Silická Plateau. Coordinate is approximate public map placement.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000035',
+  'Skalistý potok Cave public-source survey 2026',
+  '{"kind":"spring river cave","tags":["karst","slovak_karst","world_heritage","siphons","speleodiving"],"protected":true,"region":"Košice","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ''s Slovak Karst overview gives length 5,855 m and vertical distance 317 m near Háj. Coordinate is approximate public map placement."}',
+  '{"length_m":5855,"depth_m":317,"difficulty":"technical","equipment_required":["permit required","technical caving gear","diving equipment in siphon sections"],"notable_features":["underground stream","siphons","lakes","rapids","waterfalls"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"karst cave at the southern foothill of the Jasovská Plateau","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ''s Slovak Karst overview gives length 5,855 m and vertical distance 317 m near Háj. Coordinate is approximate public map placement.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000036',
+  'Kunia priepasť public-source survey 2026',
+  '{"kind":"abyss cave","tags":["abyss","karst","slovak_karst","vertical"],"protected":true,"region":"Košice","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives length 813 m and depth 203 m for Kunia Abyss on the southern edge of the Jasovská Plateau. Coordinate is approximate public map placement."}',
+  '{"length_m":813,"depth_m":203,"difficulty":"technical","equipment_required":["permit required","vertical caving gear"],"notable_features":["cascading shafts","horizontal passages","flowstone fills","possible hydrological link to Skalistý potok"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"karst abyss on the southern edge of the Jasovská Plateau","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives length 813 m and depth 203 m for Kunia Abyss on the southern edge of the Jasovská Plateau. Coordinate is approximate public map placement.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000037',
+  'Diviačia priepasť public-source survey 2026',
+  '{"kind":"abyss cave","tags":["abyss","karst","slovak_karst","vertical"],"protected":true,"region":"Košice","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives depth 123 m and location at the eastern edge of the Plešivská Plateau. Coordinate is approximate public map placement."}',
+  '{"length_m":null,"depth_m":123,"difficulty":"technical","equipment_required":["permit required","vertical caving gear"],"notable_features":["corrosion-collapse abyss","flowstone decoration","water lilies and cave pearls"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"karst abyss on the eastern edge of the Plešivská Plateau","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives depth 123 m and location at the eastern edge of the Plešivská Plateau. Coordinate is approximate public map placement.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000038',
+  'Zvonivá jama public-source survey 2026',
+  '{"kind":"abyss cave","tags":["abyss","karst","slovak_karst","vertical"],"protected":true,"region":"Košice","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives depth 101 m and adjacent horizontal passages 220 m long in the central Plešivská Plateau. Coordinate is approximate public map placement."}',
+  '{"length_m":220,"depth_m":101,"difficulty":"technical","equipment_required":["permit required","vertical caving gear"],"notable_features":["corrosion-collapse abyss","underground dome","pagoda stalagmites"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"karst abyss in the central Plešivská Plateau","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives depth 101 m and adjacent horizontal passages 220 m long in the central Plešivská Plateau. Coordinate is approximate public map placement.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000039',
+  'Obrovská priepasť public-source survey 2026',
+  '{"kind":"abyss cave","tags":["abyss","karst","slovak_karst","vertical"],"protected":true,"region":"Košice","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ describes Obrovská Abyss above Jablonov nad Turnou on the Dolný vrch Plateau and gives shaft depth 100 m. Coordinate is approximate public map placement."}',
+  '{"length_m":null,"depth_m":100,"difficulty":"technical","equipment_required":["permit required","vertical caving gear"],"notable_features":["corrosion-collapse shaft","Dolný vrch Plateau"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"karst abyss on the Dolný vrch Plateau","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ describes Obrovská Abyss above Jablonov nad Turnou on the Dolný vrch Plateau and gives shaft depth 100 m. Coordinate is approximate public map placement.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000040',
+  'Snežná diera public-source survey 2026',
+  '{"kind":"ice abyss cave","tags":["abyss","ice","karst","slovak_karst"],"protected":true,"region":"Košice","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives length 100 m and depth 25 m in the Horný vrch Plateau north of the upper Zádielska Gorge. Coordinate is approximate public map placement."}',
+  '{"length_m":100,"depth_m":25,"difficulty":"restricted","equipment_required":["permit required"],"notable_features":["permanent ice fill","crevasse-corrosion cave","Horný vrch Plateau"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"crevasse-corrosion gravitationally widened fissure","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","source_note":"SSJ gives length 100 m and depth 25 m in the Horný vrch Plateau north of the upper Zádielska Gorge. Coordinate is approximate public map placement.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000041',
+  'Jaskyňa v Havranej skale public-source survey 2026',
+  '{"kind":"karst cave","tags":["karst","freely_accessible","slovak_paradise"],"protected":true,"region":"Košice","source_url":"https://www.ssj.sk/sk/verejnosti-volne-pristupne-jaskyne","source_note":"SSJ lists Jaskyňa v Havranej skale among caves freely open to the public. GPS is taken from a public hiking/video listing and should be treated as public approximate data."}',
+  '{"length_m":null,"depth_m":null,"difficulty":"medium","equipment_required":["lamp","sturdy shoes"],"notable_features":["freely accessible cave","Havrania skala area","hiking route"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"karst cave in Slovenský raj / Stratenská hornatina area","source_url":"https://www.ssj.sk/sk/verejnosti-volne-pristupne-jaskyne","source_note":"SSJ lists Jaskyňa v Havranej skale among caves freely open to the public. GPS is taken from a public hiking/video listing and should be treated as public approximate data.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000042',
+  'Zelená jaskyňa public-source survey 2026',
+  '{"kind":"karst cave","tags":["karst","freely_accessible","slovak_paradise"],"protected":true,"region":"Košice","source_url":"https://www.kamnavylet.sk/sk/atrakcia/zelena-jaskyna","source_note":"KamNaVylet gives GPS 48.85918, 20.30981 and describes it as freely accessible; SSJ also lists Zelená jaskyňa among freely open caves."}',
+  '{"length_m":null,"depth_m":null,"difficulty":"easy","equipment_required":["lamp","sturdy shoes"],"notable_features":["freely accessible cave","near Dobšinská Ice Cave","spacious chamber"],"coordinate_quality":"public_gps_coordinate"}',
+  '{"geology":"karst cave in the Slovak Paradise area","source_url":"https://www.kamnavylet.sk/sk/atrakcia/zelena-jaskyna","source_note":"KamNaVylet gives GPS 48.85918, 20.30981 and describes it as freely accessible; SSJ also lists Zelená jaskyňa among freely open caves.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000043',
+  'Mažarná public-source survey 2026',
+  '{"kind":"karst cave / rock shelter","tags":["karst","freely_accessible","great_fatra","archaeology"],"protected":true,"region":"Žilina","source_url":"https://www.outdooractive.com/en/route/hiking-trail/nagy-fatra/route-to-mazarna-cave/802405254/","source_note":"Outdooractive describes Mažarná as about 130 m long; Wikimedia Commons photo metadata provides public GPS near 48°56''22\"N, 18°57''37\"E."}',
+  '{"length_m":130,"depth_m":null,"difficulty":"medium","equipment_required":["lamp","sturdy shoes"],"notable_features":["large cave in Veľká Fatra","Bronze Age finds","cave bear bones"],"coordinate_quality":"public_gps_coordinate"}',
+  '{"geology":"karst cave in a limestone cliff of Veľká Fatra","source_url":"https://www.outdooractive.com/en/route/hiking-trail/nagy-fatra/route-to-mazarna-cave/802405254/","source_note":"Outdooractive describes Mažarná as about 130 m long; Wikimedia Commons photo metadata provides public GPS near 48°56''22\"N, 18°57''37\"E.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000044',
+  'Čertova pec public-source survey 2026',
+  '{"kind":"karst cave / archaeological site","tags":["karst","freely_accessible","archaeology","paleolithic"],"protected":true,"region":"Nitra","source_url":"https://en.wikipedia.org/wiki/%C4%8Certova_pec","source_note":"Wikipedia summarizes the cave as 27 m long and near Radošina; SSJ lists Čertova pec among caves freely open to public."}',
+  '{"length_m":27,"depth_m":null,"difficulty":"easy","equipment_required":["lamp optional"],"notable_features":["Palaeolithic site","small cave","recreational locality"],"coordinate_quality":"approximate_public_locality"}',
+  '{"geology":"small karst cave in Považský Inovec","source_url":"https://en.wikipedia.org/wiki/%C4%8Certova_pec","source_note":"Wikipedia summarizes the cave as 27 m long and near Radošina; SSJ lists Čertova pec among caves freely open to public.","sample_data_quality":"public sourced; not a cave registry export"}'
+),
+(
+  'a0000001-0000-0000-0000-000000000045',
+  'Pružinská Dúpna jaskyňa public-source survey 2026',
+  '{"kind":"karst cave","tags":["karst","freely_accessible","strážovské_vrchy","archaeology","bats"],"protected":true,"region":"Trenčín","source_url":"https://visit.trencin.sk/pruzinska-dupna-jaskyna/","source_note":"Visit Trenčín gives GPS 49°00''03\"N, 18°30''17\"E; a public hiking photo description states the cave is over 300 m long. SSJ lists it among freely open caves."}',
+  '{"length_m":300,"depth_m":null,"difficulty":"medium","equipment_required":["lamp","sturdy shoes"],"notable_features":["one of the oldest known caves in Slovakia","cave lion and cave bear bones","seasonal/guided access"],"coordinate_quality":"public_gps_coordinate"}',
+  '{"geology":"karst cave in the Čierny vrch massif above Rečica valley","source_url":"https://visit.trencin.sk/pruzinska-dupna-jaskyna/","source_note":"Visit Trenčín gives GPS 49°00''03\"N, 18°30''17\"E; a public hiking photo description states the cave is over 300 m long. SSJ lists it among freely open caves.","sample_data_quality":"public sourced; not a cave registry export"}'
+);
+
+INSERT INTO cave_entrances (cave_id, name, geom, entrance_type, is_public) VALUES
+('a0000001-0000-0000-0000-000000000026', 'Tourist entrance', ST_SetSRID(ST_MakePoint(19.674167, 49.008056), 4326), 'tourist', true),
+('a0000001-0000-0000-0000-000000000027', 'Guided entrance', ST_SetSRID(ST_MakePoint(19.640278, 48.925833), 4326), 'tourist', true),
+('a0000001-0000-0000-0000-000000000028', 'Guided entrance', ST_SetSRID(ST_MakePoint(20.943889, 49.053333), 4326), 'tourist', true),
+('a0000001-0000-0000-0000-000000000029', 'Museum entrance', ST_SetSRID(ST_MakePoint(18.583333, 48.777778), 4326), 'tourist', true),
+('a0000001-0000-0000-0000-000000000030', 'Castle tour entrance', ST_SetSRID(ST_MakePoint(18.577778, 48.780000), 4326), 'tourist', true),
+('a0000001-0000-0000-0000-000000000031', 'Approximate Okno cliff entrance area', ST_SetSRID(ST_MakePoint(19.582900, 49.014800), 4326), 'natural', false),
+('a0000001-0000-0000-0000-000000000032', 'Approximate spring entrance area', ST_SetSRID(ST_MakePoint(20.919000, 48.623900), 4326), 'spring', false),
+('a0000001-0000-0000-0000-000000000033', 'Approximate main entrance area', ST_SetSRID(ST_MakePoint(19.675500, 49.018000), 4326), 'natural', false),
+('a0000001-0000-0000-0000-000000000034', 'Approximate inactive Eveteš spring area', ST_SetSRID(ST_MakePoint(20.635000, 48.589000), 4326), 'spring', false),
+('a0000001-0000-0000-0000-000000000035', 'Approximate Skalistý potok spring area', ST_SetSRID(ST_MakePoint(20.857500, 48.626800), 4326), 'spring', false),
+('a0000001-0000-0000-0000-000000000036', 'Approximate abyss opening area', ST_SetSRID(ST_MakePoint(20.842500, 48.638000), 4326), 'vertical', false),
+('a0000001-0000-0000-0000-000000000037', 'Approximate abyss opening area', ST_SetSRID(ST_MakePoint(20.466000, 48.595000), 4326), 'vertical', false),
+('a0000001-0000-0000-0000-000000000038', 'Approximate abyss opening area', ST_SetSRID(ST_MakePoint(20.435000, 48.565000), 4326), 'vertical', false),
+('a0000001-0000-0000-0000-000000000039', 'Approximate abyss opening area', ST_SetSRID(ST_MakePoint(20.675000, 48.610000), 4326), 'vertical', false),
+('a0000001-0000-0000-0000-000000000040', 'Approximate fissure entrance area', ST_SetSRID(ST_MakePoint(20.816000, 48.623500), 4326), 'vertical', false),
+('a0000001-0000-0000-0000-000000000041', 'Public hiking entrance', ST_SetSRID(ST_MakePoint(20.344044, 48.890602), 4326), 'natural', true),
+('a0000001-0000-0000-0000-000000000042', 'Public entrance', ST_SetSRID(ST_MakePoint(20.309810, 48.859180), 4326), 'natural', true),
+('a0000001-0000-0000-0000-000000000043', 'Public entrance', ST_SetSRID(ST_MakePoint(18.960278, 48.939444), 4326), 'natural', true),
+('a0000001-0000-0000-0000-000000000044', 'Public entrance', ST_SetSRID(ST_MakePoint(17.937000, 48.549000), 4326), 'natural', true),
+('a0000001-0000-0000-0000-000000000045', 'Public/guided entrance', ST_SetSRID(ST_MakePoint(18.502660, 48.999700), 4326), 'natural', true);
+
+INSERT INTO cave_survey_lines (cave_id, geom, payload) VALUES
+(
+  'a0000001-0000-0000-0000-000000000026',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(19.674167 49.008056, 19.675251 49.008522, 19.675507 49.010423, 19.673546 49.012634)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.visitliptov.sk/zaujimavosti/stanisovska-jaskyna-janska-dolina/","coordinate_quality":"public_gps_coordinate","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000027',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(19.640278 48.925833, 19.640791 48.926896, 19.639736 48.928499, 19.636806 48.928881)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.visitliptov.sk/en/interests/dead-bats-cave-low-tatras/","coordinate_quality":"public_gps_coordinate","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000028',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.943889 49.053333, 20.943579 49.054471, 20.941732 49.054989, 20.939269 49.053355)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://slovakia.travel/en/zla-diera-cave","coordinate_quality":"public_gps_coordinate","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000029',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(18.583333 48.777778, 18.582352 48.778434, 18.580618 48.777613, 18.579832 48.774764)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/220-prepostska-cave","coordinate_quality":"public_gps_coordinate","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000030',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(18.577778 48.780000, 18.576607 48.779851, 18.575837 48.778094, 18.577113 48.775428)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://slovakia.travel/en/bojnicka-hradna-jaskyna-cave","coordinate_quality":"public_gps_coordinate","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000031',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(19.582900 49.014800, 19.582114 49.013920, 19.582686 49.012088, 19.585398 49.010913)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/216-okno-cave","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000032',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.919000 48.623900, 20.918984 48.622720, 20.920617 48.621713, 20.923435 48.622605)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/201-drienovska-cave","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000033',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(19.675500 49.018000, 19.676262 49.017099, 19.678155 49.017411, 19.679696 49.019933)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/207-zlomisk-cave","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000034',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.635000 48.589000, 20.636166 48.588820, 20.637391 48.590297, 20.636899 48.593212)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000035',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.857500 48.626800, 20.858498 48.627430, 20.858453 48.629347, 20.856170 48.631225)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000036',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.842500 48.638000, 20.842840 48.639130, 20.841548 48.640548, 20.838594 48.640467)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000037',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.466000 48.595000, 20.465515 48.596076, 20.463610 48.596299, 20.461433 48.594299)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000038',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.435000 48.565000, 20.433928 48.565494, 20.432344 48.564412, 20.432013 48.561475)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000039',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.675000 48.610000, 20.673867 48.609670, 20.673381 48.607814, 20.675059 48.605380)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000040',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.816000 48.623500, 20.815362 48.622508, 20.816213 48.620788, 20.819075 48.620052)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/en/clanok/186-natural-world-heritage-the-slovak-karst","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000041',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.344044 48.890602, 20.344213 48.889434, 20.345984 48.888695, 20.348627 48.890017)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.ssj.sk/sk/verejnosti-volne-pristupne-jaskyne","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000042',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(20.309810 48.859180, 20.310704 48.858410, 20.312525 48.859013, 20.313652 48.861745)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.kamnavylet.sk/sk/atrakcia/zelena-jaskyna","coordinate_quality":"public_gps_coordinate","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000043',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(18.960278 48.939444, 18.961458 48.939449, 18.962436 48.941099, 18.961495 48.943901)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://www.outdooractive.com/en/route/hiking-trail/nagy-fatra/route-to-mazarna-cave/802405254/","coordinate_quality":"public_gps_coordinate","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000044',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(17.937000 48.549000, 17.937887 48.549778, 17.937543 48.551665, 17.934995 48.553162)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://en.wikipedia.org/wiki/%C4%8Certova_pec","coordinate_quality":"approximate_public_locality","surveyed_by":"sample_data_schematic","year":2026}'
+),
+(
+  'a0000001-0000-0000-0000-000000000045',
+  ST_SetSRID(ST_GeomFromText('LINESTRING(18.502660 48.999700, 18.502819 49.000869, 18.501321 49.002068, 18.498416 49.001525)'), 4326),
+  '{"passage_name":"schematic public-source demo line","source_note":"Generated schematic line from public/approximate locality coordinate; not an official cave survey.","source_url":"https://visit.trencin.sk/pruzinska-dupna-jaskyna/","coordinate_quality":"public_gps_coordinate","surveyed_by":"sample_data_schematic","year":2026}'
+);
