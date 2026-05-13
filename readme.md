@@ -1,14 +1,42 @@
-## readme
+## Docker
+read docker.md
+## Backend
 
-docker:
+Create virtual environment:
 
-`docker compose up -d`
-
-restart docker with deleting local volumes:
+```bash
+python -m venv .venv
 ```
-docker compose down -v
-docker compose up -d
+
+Activate on Windows PowerShell:
+
+```bash
+.venv\Scripts\Activate.ps1
 ```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run FastAPI:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Open:
+
+```text
+http://localhost:8000/docs
+```
+
+Create venv (first time):
+`python -m venv .venv`
+
+Activate venv:
+`.\.venv\Scripts\Activate.ps1`
 
 install:\
 `pip install -r requirements.txt`
