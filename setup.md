@@ -1,6 +1,6 @@
 # CavesSK — Backend Setup
 
-FastAPI + PostgreSQL + Keycloak, all running locally via Docker.
+FastAPI + PostgreSQL (TimescaleDB + PostGIS) + Keycloak, all running locally via Docker.
 
 ---
 
@@ -34,8 +34,10 @@ py-fastapi-pg-jsonb-sample/
 │   └── realm-export.json   ← realm config (import on first start)
 ├── postgres-init/
 │   ├── 01-keycloak.sql     ← creates keycloak DB + user
-│   ├── 02-schema.sql       ← caves + events tables
-│   └── 03-events.sql       ← seed data
+│   ├── 02-schema.sql       ← caves + events tables, enables timescaledb + postgis
+│   ├── 03-events.sql       ← seed cave data
+│   └── 04-sensors.sql      ← sensors table, hypertable, hourly aggregate, seed sensors
+├── seed_sensors.py          ← fake sensor data generator (see timescale.md)
 ├── docker-compose.yml
 └── requirements.txt
 ```

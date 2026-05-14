@@ -70,3 +70,23 @@ filter examples:\
 /events/filter?protected=true&max_length=2000
 ```
 
+## Sensor data (TimescaleDB)
+
+Seed 30 days of fake readings for all sensors:
+```bash
+python seed_sensors.py
+```
+
+Options:
+```bash
+python seed_sensors.py --days 7           # fewer days
+python seed_sensors.py --clear            # wipe existing readings first
+python seed_sensors.py --live             # seed 24 h then stream live every 10 s
+python seed_sensors.py --live --interval 3  # faster live updates for demo
+```
+
+Sensors seeded by `postgres-init/04-sensors.sql`:
+- `SEN-DOMICA-01` — Domica main chamber
+- `SEN-JASOV-01` — Jasovská lower corridor
+- `SEN-HARMAN-01` — Harmanecká Izbica hall
+
