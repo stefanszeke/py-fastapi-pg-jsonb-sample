@@ -5,7 +5,7 @@ load_dotenv()
 
 from fastapi import FastAPI
 
-from app.routers import caves, surveys, entrances, survey_lines, protected_areas
+from app.routers import caves, surveys, entrances, survey_lines, protected_areas, sensors
 
 app = FastAPI()
 
@@ -22,6 +22,7 @@ app.include_router(surveys.router)
 app.include_router(entrances.router)
 app.include_router(survey_lines.router)
 app.include_router(protected_areas.router)
+app.include_router(sensors.router)
 
 
 @app.get("/")

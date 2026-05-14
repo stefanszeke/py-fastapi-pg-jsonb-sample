@@ -1,8 +1,8 @@
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any
 
-from sqlalchemy import Boolean, DateTime, ForeignKey, Numeric, String, func, text
+from sqlalchemy import Boolean, Date, DateTime, ForeignKey, Numeric, String, func, text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 from geoalchemy2 import Geometry
@@ -57,6 +57,17 @@ class CaveSurveyLine(Base):
     cave_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("caves.id"), nullable=False)
     geom: Mapped[Any] = mapped_column(Geometry("LINESTRING", srid=4326), nullable=False)
     payload: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
+
+
+class Sensor(Base):
+    __tablename__ = "sensors"
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, server_default=text("gen_random_uuid()"))
+    cave_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("caves.id"), nullable=False)
+    sensor_code: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    name: Mapped[str] = mapped_column(String(200), nullable=False)
+    description: Mapped[str | None] = mapped_column(String(500))
+    installed_at: Mapped[date | None] = mapped_column(Date)
 
 
 class ProtectedArea(Base):

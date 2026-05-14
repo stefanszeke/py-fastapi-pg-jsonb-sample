@@ -124,6 +124,16 @@ def seed_history(conn, sensors: list[dict], days: int) -> None:
         conn.commit()
         print(f"{len(rows):,} rows inserted")
 
+    print("\n  Refreshing hourly aggregate … ", end='', flush=True)
+    conn.autocommit = True
+    with conn.cursor() as cur:
+        cur.execute(
+            "CALL refresh_continuous_aggregate('sensor_readings_hourly', %s, %s)",
+            (start, now),
+        )
+    conn.autocommit = False
+    print("done")
+
 
 def live_mode(conn, sensors: list[dict], interval: int) -> None:
     print(f"\nLive mode — new reading every {interval}s  (Ctrl+C to stop)\n")

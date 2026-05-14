@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from typing import Any
 from uuid import UUID
 
@@ -75,3 +76,31 @@ class ProtectedAreaRead(BaseModel):
     payload: dict[str, Any]
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class SensorRead(BaseModel):
+    id: UUID
+    cave_id: UUID
+    sensor_code: str
+    name: str
+    description: str | None = None
+    installed_at: date | None = None
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class SensorRawReading(BaseModel):
+    measured_at: datetime
+    temperature: float | None
+    humidity: float | None
+    co2: int | None
+
+
+class SensorHourlyReading(BaseModel):
+    hour: datetime
+    avg_temp: float | None
+    min_temp: float | None
+    max_temp: float | None
+    avg_humidity: float | None
+    avg_co2: int | None
+    reading_count: int
